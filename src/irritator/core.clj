@@ -3,18 +3,14 @@
             [clojure.string :as str]
             [yaml.core :as yaml]
             [morse.handlers :as h]
-            [morse.polling :as p]
+            [morse.polling :as p]            
             [morse.api :as t]
-            [clj-audio.core :refer :all])
+            [irritator.player :as player])
   (:gen-class))
-
-(def ^:dynamic *current-sound* nil)
 
 (def config (yaml/from-file "config.yml"))
 
 (defn start-bot [token whitelist]
-  (let [current-sound (atom nil)]
-
   (defn process-message [id msg] 
     (let [      
       username (:username (:from msg))]
@@ -41,7 +37,7 @@
 
     (h/command-fn "start"
       (fn [{{id :id :as chat} :chat}]
-        (println "Bot joined new chat: " chat)
+        ; (println "Bot joined new chat: " chat)
         (t/send-text token id "Welcome to irritator! Type /play command to play sounds and /stop to mute everything.")))
 
     (h/command-fn "help"
@@ -51,12 +47,12 @@
 
     (h/command-fn "play"
       (fn [{{id :id :as chat} :chat}]
-        (future (-> (->stream "resources/dog_01.mp3") decode play))        
+        (player/start "resources/dog_01.mp3")
         (t/send-text token id "Playing sound, bark-bark! 🐶")))
 
     (h/command-fn "stop"
       (fn [{{id :id :as chat} :chat}]
-        (stop)
+        (player/terminate)
         (t/send-text token id "Stopped... 🙊"))))
 
     ; Messages handling
@@ -64,16 +60,15 @@
     ;   (fn [{{id :id} :chat :as message}]
     ;     (process-input process-message id message)))
 
-  (<!! (p/start token handler))))
+  (<!! (p/start token handler)))
 
-      
 (defn -main
   [& args]
   (let [
     token (:telegram-token config)
     whitelist (:allowed-usernames config)]
       (when (str/blank? token)
-        (println "Please provde token in telegram-token config.yml file!")
+        (println "Please provide token in telegram-token config.yml file!")
         (System/exit 1))
 
       (println "Starting the irritator")
