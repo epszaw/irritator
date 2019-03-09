@@ -10,7 +10,8 @@
                  [org.craigandera/dynne           "0.4.1"]
                  [io.forward/yaml                 "1.0.9"]
                  [org.clojars.beppu/clj-audio     "0.3.0"]
-                 [com.googlecode.soundlibs/mp3spi "1.9.5.4"]]
+                 [com.googlecode.soundlibs/mp3spi "1.9.5.4"]
+                 [clj-time                        "0.15.0"]]
 
   :plugins [[lein-environ "1.1.0"]]
 
