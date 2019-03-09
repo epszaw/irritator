@@ -5,5 +5,5 @@
 (defn start [path]
   (future (-> (->stream path) decode play)))
 
-(defn terminate [] 
-  (stop))
+(defn terminate []
+  (when finished? stop))

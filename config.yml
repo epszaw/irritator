@@ -2,3 +2,4 @@ telegram-token: 768609820:AAGJHG-RQYjemCk9PsoM-Xaggkbaww5B2Co
 allowed-usernames:
   - lamartire
   - Xeniowl
+lifecycle-timeout: 500
