@@ -4,10 +4,11 @@
             [morse.handlers :as h]
             [morse.polling :as p]            
             [morse.api :as t]
+            [irritator.lifecycle :as lifecycle]
             [irritator.player :as player])
   (:gen-class))
 
-(defn start [token whitelist]
+(defn start [token whitelist timeout]
   (defn process-message [id msg] 
     (let [      
       username (:username (:from msg))]
@@ -56,5 +57,10 @@
     ; (h/message-fn
     ;   (fn [{{id :id} :chat :as message}]
     ;     (process-input process-message id message)))
+
+  (future 
+    (lifecycle/start timeout 
+      (fn [] 
+        (when (lifecycle/terminate?) (player/terminate)))))
 
   (<!! (p/start token handler)))

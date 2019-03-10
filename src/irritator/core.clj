@@ -22,9 +22,4 @@
 
       (println "Starting the irritator! 🚀")
 
-      (future 
-        (lifecycle/start timeout 
-          (lifecycle/tick 
-            #(player/terminate))))
-      
-      (bot/start token whitelist)))
+      (bot/start token whitelist timeout)))
