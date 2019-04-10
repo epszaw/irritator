@@ -1,0 +1,32 @@
+(ns irritator.bot.chat
+  (:require [clojure.core :refer [future]]
+            [clojure.tools.logging :as log]            
+            [morse.api :as t]
+            [irritator.utils :refer [decode-escaped-string]]
+            [irritator.storage.users :refer []]
+            [irritator.storage.queue :refer [push-message remove-message get-message]])
+  (:gen-class))
+
+(defn configure [token whitelist]
+
+  ; Permissions stuff
+  (defn is-permitted-chat? [{username :username}]
+    (some #(= username %) whitelist))
+
+  (defn permission-stub [{id :id :as chat}]
+    (log/info (str (:username chat) " is not whitelisted username, add it to config.yml file!"))
+    (t/send-text token id "You are not in the bot whitelist, sowwy 😢"))
+
+  (defn preprocess-command [command chat]    
+    (if (is-permitted-chat? chat)
+      (push-message command chat)
+      (permission-stub chat)))
+
+  ; TODO: implement this
+  (defn broadcast-message [text]
+    (println "broadcast msg: " text))
+
+  (defn send-message [message]
+    (let [id (:_id message) msg (get-message id)]
+      (t/send-text token (:id msg) (decode-escaped-string (:message message)))
+      (remove-message id))))

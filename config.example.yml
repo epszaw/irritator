@@ -1,0 +1,8 @@
+telegram-token: telegram-token
+bot-api-url: url-to-bot-host
+secret: random-string
+allowed-usernames:
+  - just
+  - allowed
+  - users
+lifecycle-timeout: 2000

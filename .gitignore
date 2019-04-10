@@ -10,3 +10,4 @@ pom.xml.asc
 *.jar
 *.class
 .cpcache/
+config.yml

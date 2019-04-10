@@ -6,16 +6,26 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[org.clojure/clojure             "1.8.0"]
-                 [morse                           "0.2.4"]
-                 [org.craigandera/dynne           "0.4.1"]
-                 [io.forward/yaml                 "1.0.9"]
+                 [org.clojure/tools.logging       "0.4.1"]
                  [org.clojars.beppu/clj-audio     "0.3.0"]
                  [com.googlecode.soundlibs/mp3spi "1.9.5.4"]
-                 [clj-time                        "0.15.0"]]
+                 [com.novemberain/monger          "3.1.0"]
+                 [io.forward/yaml                 "1.0.9"]
+                 [ring/ring-json                  "0.4.0"]
+                 [ring/ring-codec                 "1.1.1"]
+                 [morse                           "0.2.4"]
+                 [clj-time                        "0.15.0"]
+                 [compojure                       "1.6.1"]
+                 [javax.servlet/servlet-api       "2.5"]
+                 [http-kit                        "2.3.0"]
+                 [cheshire                        "5.8.1"]]
 
-  :plugins [[lein-environ "1.1.0"]]
-
-  :main ^:skip-aot irritator.core
   :target-path "target/%s"
 
-  :profiles {:uberjar {:aot :all}})
+  :profiles 
+    {:bot 
+      {:main irritator.bot.core 
+       :uberjar-name "bot.jar"}
+     :daemon 
+      {:main irritator.daemon.core 
+       :uberjar-name "daemon.jar"}})
