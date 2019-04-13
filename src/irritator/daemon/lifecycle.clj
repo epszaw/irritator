@@ -2,7 +2,7 @@
   (:require [clojure.core :refer [future]]
             [clj-time.core :as t]
             [clj-time.local :as l]
-            [irritator.utils :refer [interval]])
+            [irritator.utils.core :refer [interval]])
   (:gen-class))
 
 ; TODO move to utils, or replace with non-crutch

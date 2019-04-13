@@ -1,6 +1,6 @@
 (ns irritator.daemon.api
   (:require [org.httpkit.client :as http]
-            [irritator.utils :refer [get-request-body]])
+            [irritator.utils.core :refer [get-request-body]])
   (:gen-class))
 
 (defn configure [url secret]

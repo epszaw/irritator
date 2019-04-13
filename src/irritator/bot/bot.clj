@@ -6,7 +6,7 @@
             [morse.handlers :as h]
             [morse.polling :as p]
             [irritator.bot.chat :as chat]
-            [irritator.storage.queue :refer [push-message]])
+            [irritator.bot.storage.queue :refer [push-message]])
   (:gen-class))
 
 (defn start [token whitelist]

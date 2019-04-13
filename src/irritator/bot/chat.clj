@@ -2,9 +2,9 @@
   (:require [clojure.core :refer [future]]
             [clojure.tools.logging :as log]            
             [morse.api :as t]
-            [irritator.utils :refer [decode-escaped-string]]
-            [irritator.storage.users :refer []]
-            [irritator.storage.queue :refer [push-message remove-message get-message]])
+            [irritator.utils.core :refer [decode-escaped-string]]
+            [irritator.bot.storage.users :refer []]
+            [irritator.bot.storage.queue :refer [push-message remove-message get-message]])
   (:gen-class))
 
 (defn configure [token whitelist]

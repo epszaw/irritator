@@ -1,7 +1,7 @@
-(ns irritator.storage.queue
+(ns irritator.bot.storage.queue
   (:require [monger.collection :as mc]
-            [irritator.utils :refer [normalize-doc]]
-            [irritator.storage.core :refer [db]])
+            [irritator.utils.core :refer [normalize-doc]]
+            [irritator.bot.storage.core :refer [db]])
   (:import org.bson.types.ObjectId)
   (:gen-class))
 

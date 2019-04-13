@@ -5,9 +5,9 @@
             [ring.middleware.json :refer [wrap-json-response]]
             [org.httpkit.server :as http]
             [irritator.bot.chat :as chat]
-            [irritator.utils :refer [qs-to-hash get-request-body]]
-            [irritator.storage.queue :refer [get-first-message remove-message]]
-            [irritator.storage.users :refer [save-user remove-user]])
+            [irritator.utils.core :refer [qs-to-hash get-request-body]]
+            [irritator.bot.storage.queue :refer [get-first-message remove-message]]
+            [irritator.bot.storage.users :refer [save-user remove-user]])
   (:gen-class))
 
 (defn create-response [status body]

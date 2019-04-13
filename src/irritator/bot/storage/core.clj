@@ -1,4 +1,4 @@
-(ns irritator.storage.core
+(ns irritator.bot.storage.core
   (:require [monger.core :as mg]
             [monger.collection :as mc])
   (:gen-class))

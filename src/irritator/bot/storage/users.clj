@@ -1,6 +1,6 @@
-(ns irritator.storage.users
+(ns irritator.bot.storage.users
   (:require [monger.collection :as mc]
-            [irritator.storage.core :refer [db]])
+            [irritator.bot.storage.core :refer [db]])
   (:gen-class))
 
 (defn get-user [id]

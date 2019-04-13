@@ -1,4 +1,4 @@
-(ns irritator.utils
+(ns irritator.utils.core
   (:require [clojure.core :refer [future]]
             [clojure.string :as str]
             [ring.util.codec :refer [url-decode]]
