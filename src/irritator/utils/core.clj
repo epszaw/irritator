@@ -18,9 +18,9 @@
     (:payload)))
 
 (defn interval [timeout cb]
-  (future (while true (do 
+  (while true (do 
     (cb)
-    (Thread/sleep timeout)))))
+    (Thread/sleep timeout))))
 
 (defn qs-to-hash [qs]  
   (->> (str/split qs #"&")
