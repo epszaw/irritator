@@ -5,4 +5,5 @@ allowed-usernames:
   - just
   - allowed
   - users
-lifecycle-timeout: 2000
+db-host: 127.0.0.1
+db-port: 27017

@@ -6,8 +6,16 @@ run-daemon:
 	
 compile:
 	rm -rf target
-
 	lein with-profile bot:daemon uberjar
-	
 	cp -rf resources target
 	cp config.yml target
+
+compile-bot:
+	lein with-profile bot uberjar
+	cp config.yml target
+
+compile-daemon:
+	lein with-profile daemon uberjar
+	cp -rf resources target
+	cp config.yml target
+	

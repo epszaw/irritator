@@ -3,6 +3,8 @@
             [monger.collection :as mc])
   (:gen-class))
 
-(def connection (mg/connect))
+(defn connect [host port]
+  (def connection (mg/connect {:host host :port port}))
 
-(def db (mg/get-db connection "irritator"))
+  (def db (mg/get-db connection "irritator")))
+
