@@ -4,6 +4,7 @@
             [irritator.utils.core :refer [ranged-rand]])
   (:gen-class))
 
+; TODO: move this to the config
 (def samples-dir "./resources")
 
 (def stopped? (atom true))
@@ -18,8 +19,6 @@
    (file-seq)
    (map #(str (.getFileName (.toPath %))))
    (filter #(re-find #"\.mp3$" %))))
-
-(defn playing? [] @current-sample)
 
 (defn read-sound [path]
   (-> path
@@ -54,7 +53,7 @@
   (let [[from to] borders]
 
     (defn tick []
-      (when (and (not @stopped?) (not @current-sample))
+      (when (and (not @stopped?) (nil? @current-sample))
         (let [sleep-time (ranged-rand from to)
               sleep-minutes (* sleep-time 60 1000)]
           (play-random-sample (fn []

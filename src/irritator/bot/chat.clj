@@ -26,7 +26,11 @@
   (defn broadcast-message [text]
     (println "broadcast msg: " text))
 
+  (defn send-direct-message [id text]
+    (t/send-text token id text))
+
   (defn send-message [message]
-    (let [id (:_id message) msg (get-message id)]
-      (t/send-text token (:id msg) (decode-escaped-string (:message message)))
+    (let [id (:_id message) 
+          msg (get-message id)]
+      (send-direct-message (:id msg) (decode-escaped-string (:message message)))
       (remove-message id))))

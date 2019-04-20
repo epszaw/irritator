@@ -19,6 +19,7 @@
      (= token nil)
       (println "Please provide token in telegram-token config.yml file!")
       (System/exit 1))
+    
     (when
      (= secret nil)
       (println "Please provide secret in secret config.yml file!")

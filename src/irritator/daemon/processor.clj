@@ -1,5 +1,7 @@
 (ns irritator.daemon.processor
-  (:require [irritator.daemon.player :as player])
+  (:require [irritator.daemon.player :as player]
+            ; TODO: move this to the core
+            [irritator.daemon.terminator :as terminator])
   (:gen-class))
 
 (defn create-process-payload [id text]
@@ -27,9 +29,9 @@
     "Show is over, ladies and gentlemens! 🌒")))
 
 (defn process-info-message [msg-id cb]
-  (let [current-sample player/playing?
+  (let [current-sample @player/current-sample
         cb-msg
-        (if (current-sample)
+        (if current-sample
           (str "Now playing: " current-sample)
           "Nothing is playing now. 🤷‍♀️")]
     (cb
@@ -54,13 +56,21 @@
     "Bot was terminated. If you want to launch it again – restart daemon and bot. Good luck! ✨"))
   (System/exit 1))
 
+(defn process-termination [msg-id cb]
+  (cb
+    (create-process-payload
+    msg-id
+    "It is not good time to play something. 🤫")))
+
 (defn process-message [msg cb]
   (let [{id :_id command :command} msg]
-    (case command
-      "help" (process-help-message id cb)
-      "start" (process-start-message id cb)
-      "stop" (process-stop-message id cb)
-      "info" (process-info-message id cb)
-      "subscribe" (process-subscribe-message id cb)
-      "unsubscribe" (process-unsubscribe-message id cb)
-      "kill" (process-kill-message id cb))))
+    (if (and (terminator/terminate?) (not (= command "kill")))
+        (process-termination id cb)
+        (case command
+          "help" (process-help-message id cb)
+          "start" (process-start-message id cb)
+          "stop" (process-stop-message id cb)
+          "info" (process-info-message id cb)
+          "subscribe" (process-subscribe-message id cb)
+          "unsubscribe" (process-unsubscribe-message id cb)
+          "kill" (process-kill-message id cb)))))

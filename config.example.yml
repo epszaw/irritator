@@ -1,5 +1,7 @@
+# Telegram token
 telegram-token: telegram-token
-bot-url: url-to-bot-host
+
+# Bot service
 secret: random-string
 allowed-usernames:
   - just
@@ -7,3 +9,16 @@ allowed-usernames:
   - users
 db-host: 127.0.0.1
 db-port: 27017
+
+# Daemon service
+bot-url: url-to-bot-host
+player-interval:
+  - 5
+  - 30
+borders:
+  from:
+    - 7
+    - 00
+  to:
+    - 22
+    - 00
