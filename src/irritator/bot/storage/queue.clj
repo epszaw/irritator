@@ -6,10 +6,10 @@
   (:gen-class))
 
 (defn push-message [command payload]
-  (mc/insert-and-return 
-    db 
-    "queue" 
-    (merge {:command command} payload)))
+  (mc/insert-and-return
+   db
+   "queue"
+   (merge {:command command} payload)))
 
 (defn get-first-message [simplify?]
   (let [doc (mc/find-one db "queue" {})]

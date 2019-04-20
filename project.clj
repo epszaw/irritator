@@ -13,9 +13,7 @@
                  [ring/ring-codec           "1.1.1"]                                
                  [javax.servlet/servlet-api "2.5"]
                  [http-kit                  "2.3.0"]
-                 [cheshire                  "5.8.1"]]  
-
-  :auto-clean true               
+                 [cheshire                  "5.8.1"]]
 
   :profiles
     {:bot
@@ -36,4 +34,6 @@
        :source-paths ["src/irritator/daemon" "src/irritator"]
        :dependencies [[org.clojars.beppu/clj-audio     "0.3.0"]
                       [com.googlecode.soundlibs/mp3spi "1.9.5.4"]
-                      [clj-time                        "0.15.0"]]}})
+                      [clj-time                        "0.15.0"]]}}
+
+    :plugins [[lein-cljfmt "0.6.4"]])

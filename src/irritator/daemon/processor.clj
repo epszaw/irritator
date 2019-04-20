@@ -8,50 +8,50 @@
 
 (defn process-help-message [msg-id cb]
   (cb
-    (create-process-payload
-      msg-id
-      "Welcome to irritator! Type /start command to start show and /stop to finish. You can also subscribe on broadcasting with /subscribe command and unsubscribe with /unsubscribe.")))
+   (create-process-payload
+    msg-id
+    "Welcome to irritator! Type /start command to start show and /stop to finish. You can also subscribe on broadcasting with /subscribe command and unsubscribe with /unsubscribe.")))
 
 (defn process-start-message [msg-id cb]
-  (player/play "resources/dog_01.mp3")
+  (player/start)
   (cb
-    (create-process-payload 
-      msg-id 
-      "Show is started, ladies and gentlemens! 🍿")))
+   (create-process-payload
+    msg-id
+    "Show is started, ladies and gentlemens! 🍿")))
 
 (defn process-stop-message [msg-id cb]
   (player/stop)
-  (cb 
-    (create-process-payload 
-      msg-id 
-      "Show is over, ladies and gentlemens! 🌒")))
+  (cb
+   (create-process-payload
+    msg-id
+    "Show is over, ladies and gentlemens! 🌒")))
 
 (defn process-info-message [msg-id cb]
   (let [current-sample player/playing?
-        cb-msg 
-          (if (current-sample) 
-            (str "Now playing: " current-sample) 
-            "Nothing is playing now. 🤷‍♀️")]
-    (cb 
-      (create-process-payload msg-id cb-msg))))
+        cb-msg
+        (if (current-sample)
+          (str "Now playing: " current-sample)
+          "Nothing is playing now. 🤷‍♀️")]
+    (cb
+     (create-process-payload msg-id cb-msg))))
 
 (defn process-subscribe-message [msg-id cb]
   (cb
-    (create-process-payload
-      msg-id
-      "You are successfully subscribed on irritator broadcasting! 🤝")))
+   (create-process-payload
+    msg-id
+    "You are successfully subscribed on irritator broadcasting! 🤝")))
 
 (defn process-unsubscribe-message [msg-id cb]
   (cb
-    (create-process-payload
-      msg-id
-      "You are successfully unsubscribed from irritator broadcasting, I will not send anything to you. 🙊")))
+   (create-process-payload
+    msg-id
+    "You are successfully unsubscribed from irritator broadcasting, I will not send anything to you. 🙊")))
 
 (defn process-kill-message [msg-id cb]
-  (cb 
-    (create-process-payload 
-      msg-id 
-      "Bot was terminated. If you want to launch it again – restart daemon and bot. Good luck! ✨"))
+  (cb
+   (create-process-payload
+    msg-id
+    "Bot was terminated. If you want to launch it again – restart daemon and bot. Good luck! ✨"))
   (System/exit 1))
 
 (defn process-message [msg cb]
@@ -62,5 +62,5 @@
       "stop" (process-stop-message id cb)
       "info" (process-info-message id cb)
       "subscribe" (process-subscribe-message id cb)
-      "unsubscribe" (process-unsubscribe-message id cb)      
+      "unsubscribe" (process-unsubscribe-message id cb)
       "kill" (process-kill-message id cb))))

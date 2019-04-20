@@ -1,6 +1,6 @@
 (ns irritator.bot.chat
   (:require [clojure.core :refer [future]]
-            [clojure.tools.logging :as log]            
+            [clojure.tools.logging :as log]
             [morse.api :as t]
             [irritator.utils.core :refer [decode-escaped-string]]
             [irritator.bot.storage.users :refer []]
@@ -17,7 +17,7 @@
     (log/info (str (:username chat) " is not whitelisted username, add it to config.yml file!"))
     (t/send-text token id "You are not in the bot whitelist, sowwy 😢"))
 
-  (defn preprocess-command [command chat]    
+  (defn preprocess-command [command chat]
     (if (is-permitted-chat? chat)
       (push-message command chat)
       (permission-stub chat)))

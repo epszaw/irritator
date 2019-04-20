@@ -6,15 +6,15 @@
 (defn configure [url secret]
 
   (defn get-next-message [cb]
-    (http/get url 
-      {:query-params {:secret secret} }
-      (fn [res]
-        (->
-          (get-request-body res)
-          (cb)))))
+    (http/get url
+              {:query-params {:secret secret}}
+              (fn [res]
+                (->
+                 (get-request-body res)
+                 (cb)))))
 
   (defn send-processed-message [payload]
-    (http/post 
-      url 
-      {:query-params 
-        (merge {:secret secret} payload)})))
+    (http/post
+     url
+     {:query-params
+      (merge {:secret secret} payload)})))

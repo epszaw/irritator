@@ -1,5 +1,5 @@
 telegram-token: telegram-token
-bot-api-url: url-to-bot-host
+bot-url: url-to-bot-host
 secret: random-string
 allowed-usernames:
   - just
