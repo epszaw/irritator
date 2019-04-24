@@ -4,53 +4,50 @@
             [irritator.utils.core :refer [ranged-rand]])
   (:gen-class))
 
-; TODO: move this to the config
-(def samples-dir "./resources")
-
 (def stopped? (atom true))
 
 (def current-sample (atom nil))
 
 (def last-sample (atom nil))
 
-(defn playlist []
-  (->>
-   (io/file samples-dir)
-   (file-seq)
-   (map #(str (.getFileName (.toPath %))))
-   (filter #(re-find #"\.mp3$" %))))
-
-(defn read-sound [path]
-  (-> path
-      (audio/->stream)
-      (audio/decode)))
-
-(defn play [path cb]
-  (-> (read-sound path)
-      (audio/play))
-  (cb))
-
-(defn get-random-sample []
-  (let [samples (playlist)
-        samples-count (count samples)]
-    (if (= samples-count 0)
-      (first samples)
-      (->> samples
-           (remove #(= % @last-sample))
-           (rand-nth)))))
-
-(defn play-random-sample [cb]
-  (reset! current-sample (get-random-sample))
-  (reset! last-sample @current-sample)
-  (play
-   (str samples-dir "/" @current-sample)
-   (fn []
-     (reset! current-sample nil)
-     (cb))))
-
 ; TODO: refactor this
-(defn configure [borders]
+(defn configure [samples-dir borders]
   (let [[from to] borders]
+
+    (defn playlist []
+      (->>
+       (io/file samples-dir)
+       (file-seq)
+       (map #(str (.getFileName (.toPath %))))
+       (filter #(re-find #"\.mp3$" %))))
+
+    (defn read-sound [path]
+      (-> path
+          (audio/->stream)
+          (audio/decode)))
+
+    (defn play [path cb]
+      (-> (read-sound path)
+          (audio/play))
+      (cb))
+
+    (defn get-random-sample []
+      (let [samples (playlist)
+            samples-count (count samples)]
+        (if (= samples-count 0)
+          (first samples)
+          (->> samples
+               (remove #(= % @last-sample))
+               (rand-nth)))))
+
+    (defn play-random-sample [cb]
+      (reset! current-sample (get-random-sample))
+      (reset! last-sample @current-sample)
+      (play
+       (str samples-dir "/" @current-sample)
+       (fn []
+         (reset! current-sample nil)
+         (cb))))
 
     (defn tick []
       (when (and (not @stopped?) (nil? @current-sample))

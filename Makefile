@@ -7,7 +7,6 @@ run-daemon:
 compile:
 	rm -rf target
 	lein with-profile bot:daemon uberjar
-	cp -rf resources target
 	cp config.yml target
 
 compile-bot:
@@ -18,6 +17,5 @@ compile-bot:
 compile-daemon:
 	rm -rf target
 	lein with-profile daemon uberjar
-	cp -rf resources target
 	cp config.yml target
 	

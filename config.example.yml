@@ -12,6 +12,7 @@ db-port: 27017
 
 # Daemon service
 bot-url: url-to-bot-host
+resources-path: ./resources
 player-interval:
   - 5
   - 30

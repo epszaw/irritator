@@ -17,7 +17,8 @@
         secret (:secret config)
         bot-url (:bot-url config)
         player-interval (:player-interval config)
-        borders (:borders config)]
+        borders (:borders config)
+        resources-path (:resources-path config)]
 
     (defn send-message-procession-result [res]
       (api/send-processed-message res))
@@ -43,7 +44,7 @@
 
     (println "daemon: irritator daemon API started! 🚀")
 
-    (player/configure player-interval)
+    (player/configure resources-path player-interval)
     (terminator/configure borders)
     (api/configure (:bot-url config) (:secret config))
     (interval 1000 daemon-tick-handler)))

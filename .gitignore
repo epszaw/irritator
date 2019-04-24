@@ -11,3 +11,4 @@ pom.xml.asc
 *.class
 .cpcache/
 config.yml
+resources
