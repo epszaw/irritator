@@ -11,10 +11,12 @@ compile:
 	cp config.yml target
 
 compile-bot:
+	rm -rf target
 	lein with-profile bot uberjar
 	cp config.yml target
 
 compile-daemon:
+	rm -rf target
 	lein with-profile daemon uberjar
 	cp -rf resources target
 	cp config.yml target
