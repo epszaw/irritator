@@ -30,7 +30,7 @@
     (t/send-text token id text))
 
   (defn send-message [message]
-    (let [id (:_id message) 
+    (let [id (:_id message)
           msg (get-message id)]
       (send-direct-message (:id msg) (decode-escaped-string (:message message)))
       (remove-message id))))

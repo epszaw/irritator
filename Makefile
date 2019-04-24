@@ -1,3 +1,6 @@
+format:
+	lein cljfmt fix
+
 run-bot:
 	lein with-profile bot run
 

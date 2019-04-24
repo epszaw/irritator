@@ -58,19 +58,19 @@
 
 (defn process-termination [msg-id cb]
   (cb
-    (create-process-payload
+   (create-process-payload
     msg-id
     "It is not good time to play something. 🤫")))
 
 (defn process-message [msg cb]
   (let [{id :_id command :command} msg]
     (if (and (terminator/terminate?) (not (= command "kill")))
-        (process-termination id cb)
-        (case command
-          "help" (process-help-message id cb)
-          "start" (process-start-message id cb)
-          "stop" (process-stop-message id cb)
-          "info" (process-info-message id cb)
-          "subscribe" (process-subscribe-message id cb)
-          "unsubscribe" (process-unsubscribe-message id cb)
-          "kill" (process-kill-message id cb)))))
+      (process-termination id cb)
+      (case command
+        "help" (process-help-message id cb)
+        "start" (process-start-message id cb)
+        "stop" (process-stop-message id cb)
+        "info" (process-info-message id cb)
+        "subscribe" (process-subscribe-message id cb)
+        "unsubscribe" (process-unsubscribe-message id cb)
+        "kill" (process-kill-message id cb)))))

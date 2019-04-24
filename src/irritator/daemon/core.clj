@@ -26,21 +26,21 @@
     (defn process-next-message-response [msg]
       (when msg (processor/process-message msg send-message-procession-result)))
 
-    (defn daemon-tick-handler []      
-      (when (and (terminator/terminate?) @player/current-sample) 
-            (player/stop))
+    (defn daemon-tick-handler []
+      (when (and (terminator/terminate?) @player/current-sample)
+        (player/stop))
 
       ; TODO: make daemon-level flag of processing
       ; (when (and (false? (terminator/terminate?)) ))
 
       (when (not @processing?)
-            (do
-              (reset! processing? true)
-              (try
-                (api/get-next-message process-next-message-response)
-                (catch Exception ex
-                  (log/error ex "Irritator runtime error"))
-                (finally (reset! processing? false))))))
+        (do
+          (reset! processing? true)
+          (try
+            (api/get-next-message process-next-message-response)
+            (catch Exception ex
+              (log/error ex "Irritator runtime error"))
+            (finally (reset! processing? false))))))
 
     (println "daemon: irritator daemon API started! 🚀")
 

@@ -14,7 +14,7 @@
         secret (:secret config nil)
         db-host (:db-host config "127.0.0.1")
         db-port (:db-port config 27017)]
-        
+
     (when
      (= token nil)
       (println "Please provide token in telegram-token config.yml file!")

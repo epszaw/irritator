@@ -35,9 +35,9 @@
 
     (h/command "info" {chat :chat}
                (chat/preprocess-command "info" chat))
-    
+
     (h/command "kill" {chat :chat}
-                  (chat/preprocess-command "kill" chat))
+               (chat/preprocess-command "kill" chat))
 
     (h/message {chat :chat}
                (if (chat/is-permitted-chat? chat)
