@@ -42,7 +42,7 @@
     (h/message {chat :chat}
                (if (chat/is-permitted-chat? chat)
                  (chat/send-direct-message (:id chat) "This bot is not support any messages. Please, use /help command to see all commands. ☝️")
-                 (chat/permission-stub chat))))
+                 (chat/preprocess-not-permitted-command chat))))
 
   (println "bot: Starting the irritator bot! 🚀")
 
