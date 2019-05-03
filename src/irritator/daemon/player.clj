@@ -29,10 +29,10 @@
       (let [samples (playlist)
             samples-count (count samples)]
         (if (= samples-count 0)
-            (first samples)
-            (->> samples
-                 (remove #(= % (:last-sample @state)))
-                 (rand-nth)))))
+          (first samples)
+          (->> samples
+               (remove #(= % (:last-sample @state)))
+               (rand-nth)))))
 
     (defn play-random-sample [cb]
       (let [random-sample (get-random-sample)]
@@ -51,13 +51,13 @@
             sleep-time (ranged-rand from to)
             sleep-minutes (* sleep-time 60 1000)]
 
-            (when allowed?
-                  (play-random-sample 
-                    (fn []
-                      (Thread/sleep sleep-minutes)
-                      (tick)))))))
+        (when allowed?
+          (play-random-sample
+           (fn []
+             (Thread/sleep sleep-minutes)
+             (tick)))))))
 
-  (defn start [] 
+  (defn start []
     (do
       (s/mutate-state :playing? true)
       (tick)))

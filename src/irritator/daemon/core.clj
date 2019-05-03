@@ -24,15 +24,15 @@
     (defn send-respose [res]
       (api/send-processed-message res))
 
-    (defn process-next-message []      
+    (defn process-next-message []
       (s/mutate-state :processing? true)
-      (api/get-next-message 
-        (fn [msg]
-          (cond
-            (nil? msg) (do)
-            (terminate?) (processor/process-ignored-message msg send-respose)
-            (not (terminate?)) (processor/process-message msg send-respose))
-          (s/mutate-state :processing? false))))
+      (api/get-next-message
+       (fn [msg]
+         (cond
+           (nil? msg) (do)
+           (terminate?) (processor/process-ignored-message msg send-respose)
+           (not (terminate?)) (processor/process-message msg send-respose))
+         (s/mutate-state :processing? false))))
 
     (defn daemon-tick-handler []
       (let [current-sample (:current-sample @state)
@@ -40,14 +40,14 @@
             playing? (:playing? @state)
             startup-tick? (and (not (terminate?)) (not suspended?) (not playing?))]
 
-      (cond 
-        (terminate?) (player/stop)
-        startup-tick? (go (player/start)))
+        (cond
+          (terminate?) (player/stop)
+          startup-tick? (go (player/start)))
 
-      (try
-        (when (not (:processing? @state)) (process-next-message))
-      (catch Exception ex
-        (log/error ex "Irritator runtime error")))))
+        (try
+          (when (not (:processing? @state)) (process-next-message))
+          (catch Exception ex
+            (log/error ex "Irritator runtime error")))))
 
     (println "daemon: irritator daemon API started! 🚀")
     (player/configure resources-path player-interval)

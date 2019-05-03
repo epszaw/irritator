@@ -42,9 +42,9 @@
           (str "Now playing: " current-sample)
           "Nothing is playing now. 🤷‍♀️")]
     (cb
-     (create-process-payload 
-      msg-id 
-      cb-msg 
+     (create-process-payload
+      msg-id
+      cb-msg
       broadcasting?))))
 
 (defn process-subscribe-message [msg-id broadcasting? cb]
@@ -72,20 +72,20 @@
 (defn process-ignored-message [msg cb]
   (let [{id :_id} msg]
     (cb
-      (create-process-payload
-       id
-       "It is not good time to play something. 🤫"
-       false))))
+     (create-process-payload
+      id
+      "It is not good time to play something. 🤫"
+      false))))
 
 (defn process-message [msg cb]
   (let [{id :_id command :command} msg]
     (if (and (terminator/terminate?) (not (= command "kill")))
-        (process-ignored-message msg cb)
-        (case command
-              "help" (process-help-message id false cb)
-              "start" (process-start-message id true cb)
-              "stop" (process-stop-message id true cb)
-              "info" (process-info-message id false cb)
-              "subscribe" (process-subscribe-message id false cb)
-              "unsubscribe" (process-unsubscribe-message id false cb)
-              "kill" (process-kill-message id true cb)))))
+      (process-ignored-message msg cb)
+      (case command
+        "help" (process-help-message id false cb)
+        "start" (process-start-message id true cb)
+        "stop" (process-stop-message id true cb)
+        "info" (process-info-message id false cb)
+        "subscribe" (process-subscribe-message id false cb)
+        "unsubscribe" (process-unsubscribe-message id false cb)
+        "kill" (process-kill-message id true cb)))))

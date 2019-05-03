@@ -7,7 +7,7 @@
                   :current-sample nil
                   :last-sample nil}))
 
-(defn mutate-state 
+(defn mutate-state
   "Mutates state atom by given key with given value"
   [key value]
   (reset! state (assoc @state key value)))
