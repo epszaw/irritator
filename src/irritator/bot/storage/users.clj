@@ -3,8 +3,11 @@
             [irritator.bot.storage.core :refer [db]])
   (:gen-class))
 
+(defn get-all-users []
+  (mc/find-maps db "users"))
+
 (defn get-user [id]
-  (mc/find-one db "users" {:chat_id id}))
+  (mc/find-one-as-map db "users" {:chat_id id}))
 
 (defn save-user [payload]
   (when (= (get-user (:id payload)) nil)

@@ -19,30 +19,28 @@
   (println "api: Starting the irritator API! 🚀")
 
   (defn get-message-handler [{qs :query-string}]
-    ; TODO: move that to func
     (if (= secret (:secret (qs-to-hash qs)))
-      (create-response
-       200
-       {:ok true
-        :payload (get-first-message true)})
-      (create-response
-       403
-       {:ok false
-        :error "Secret is invalid!"})))
-
-  (defn process-message-handler [{qs :query-string}]
-    (let [req (qs-to-hash qs)]
-      ; TODO: move that to func
-      (if (= secret (:secret req))
-        (do
-          (chat/send-message (select-keys req [:_id :message]))
-          (create-response
-           200
-           {:ok true}))
+        (create-response
+         200
+         {:ok true
+          :payload (get-first-message true)})
         (create-response
          403
          {:ok false
-          :error "Secret is invalid!"}))))
+          :error "Secret is invalid!"})))
+
+  (defn process-message-handler [{qs :query-string}]
+    (let [req (qs-to-hash qs)]
+      (if (= secret (:secret req))
+          (do
+            (chat/send-message (select-keys req [:_id :message :broadcast?]))
+            (create-response
+             200
+             {:ok true}))
+          (create-response
+           403
+           {:ok false
+            :error "Secret is invalid!"}))))
 
   (compojure/defroutes router
     (compojure/POST "/" [] process-message-handler)

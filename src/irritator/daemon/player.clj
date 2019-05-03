@@ -1,16 +1,10 @@
 (ns irritator.daemon.player
   (:require [clojure.java.io :as io]
             [clj-audio.core :as audio]
+            [irritator.daemon.state :as s :refer [state]]
             [irritator.utils.core :refer [ranged-rand]])
   (:gen-class))
 
-(def stopped? (atom true))
-
-(def current-sample (atom nil))
-
-(def last-sample (atom nil))
-
-; TODO: refactor this
 (defn configure [samples-dir borders]
   (let [[from to] borders]
 
@@ -35,35 +29,41 @@
       (let [samples (playlist)
             samples-count (count samples)]
         (if (= samples-count 0)
-          (first samples)
-          (->> samples
-               (remove #(= % @last-sample))
-               (rand-nth)))))
+            (first samples)
+            (->> samples
+                 (remove #(= % (:last-sample @state)))
+                 (rand-nth)))))
 
     (defn play-random-sample [cb]
-      (reset! current-sample (get-random-sample))
-      (reset! last-sample @current-sample)
-      (play
-       (str samples-dir "/" @current-sample)
-       (fn []
-         (reset! current-sample nil)
-         (cb))))
+      (let [random-sample (get-random-sample)]
+        (s/mutate-state :current-sample random-sample)
+        (s/mutate-state :last-sample random-sample)
+        (play
+         (str samples-dir "/" (:current-sample @state))
+         (fn []
+           (s/mutate-state :current-sample nil)
+           (cb)))))
 
     (defn tick []
-      (when (and (not @stopped?) (nil? @current-sample))
-        (let [sleep-time (ranged-rand from to)
-              sleep-minutes (* sleep-time 60 1000)]
-          (play-random-sample (fn []
-                                (Thread/sleep sleep-minutes)
-                                (tick)))))))
+      (let [playing? (:playing? @state)
+            current-sample (:current-sample @state)
+            allowed? (and playing? (nil? current-sample))
+            sleep-time (ranged-rand from to)
+            sleep-minutes (* sleep-time 60 1000)]
 
-  (defn start []
-    (when @stopped? (do
-                      (reset! stopped? false)
-                      (tick))))
+            (when allowed?
+                  (play-random-sample 
+                    (fn []
+                      (Thread/sleep sleep-minutes)
+                      (tick)))))))
+
+  (defn start [] 
+    (do
+      (s/mutate-state :playing? true)
+      (tick)))
 
   (defn stop []
-    (when (not @stopped?) (do
-                            (reset! stopped? true)
-                            (reset! current-sample nil)
-                            (audio/stop)))))
+    (do
+      (s/mutate-state :playing? false)
+      (s/mutate-state :current-sample nil)
+      (audio/stop))))

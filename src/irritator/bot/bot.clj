@@ -1,6 +1,6 @@
 (ns irritator.bot.bot
-  (:require [clojure.core.async :refer [<!!]]
-            [clojure.core :refer [rand-int]]
+  (:require [clojure.core :refer [rand-int]]
+            [clojure.core.async :refer [<!!]]
             [clojure.tools.logging :as log]
             [clojure.string :as str]
             [morse.handlers :as h]
@@ -31,7 +31,7 @@
                (chat/preprocess-command "subscribe" chat))
 
     (h/command "unsubscribe" {chat :chat}
-               (chat/preprocess-command "stop" chat))
+               (chat/preprocess-command "unsubscribe" chat))
 
     (h/command "info" {chat :chat}
                (chat/preprocess-command "info" chat))
