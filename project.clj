@@ -1,4 +1,4 @@
-(defproject irritator "0.1.0-SNAPSHOT"
+(defproject irritator "1.0.0-SNAPSHOT"
   :description "The Bad Neighbours bane"
 
   :license 
