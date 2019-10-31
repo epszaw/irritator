@@ -69,6 +69,13 @@
     broadcasting?))
   (System/exit 1))
 
+(defn process-unregistered-message [msg-id cb]
+  (cb
+   (create-process-payload
+    msg-id
+    "This command is not supported. Please, call /help 🤷"
+    false)))
+
 (defn process-ignored-message [msg cb]
   (let [{id :_id} msg]
     (cb
@@ -81,11 +88,12 @@
   (let [{id :_id command :command} msg]
     (if (and (terminator/terminate?) (not (= command "kill")))
       (process-ignored-message msg cb)
-      (case command
-        "help" (process-help-message id false cb)
-        "start" (process-start-message id true cb)
-        "stop" (process-stop-message id true cb)
-        "info" (process-info-message id false cb)
-        "subscribe" (process-subscribe-message id false cb)
-        "unsubscribe" (process-unsubscribe-message id false cb)
-        "kill" (process-kill-message id true cb)))))
+      (cond
+        (= command "help") (process-help-message id cb)
+        (= command  "start") (process-start-message id true cb)
+        (= command "stop") (process-stop-message id true cb)
+        (= command "info") (process-info-message id false cb)
+        (= command "subscribe") (process-subscribe-message id false cb)
+        (= command "unsubscribe") (process-unsubscribe-message id false cb)
+        (= command "kill") (process-kill-message id true cb)
+        :else (process-unregistered-message id cb)))))
