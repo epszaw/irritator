@@ -57,7 +57,7 @@ You also can start daemon with `lein` from project sources: `make run-daemon`.
 | `db-port`	      | `bot`	 | `27017`         | Mongo DB port 								      |
 | `bot-url`	      | `daemon` | `nil`	   | Bot host url. Requires for access for commands queue 			      |
 | `resources-path`    | `daemon` | `./resources`   | Path to local folder with mp3-files for next irritation sessions 😉 	      |
-| `palyer-interval`   | `daemon` | `[5 30]`	   | How long daemon will play sound. `[5 30]` means – from 5 minutes to 30 minutes   |
+| `player-interval`   | `daemon` | `[5 30]`	   | How long daemon will play sound. `[5 30]` means – from 5 minutes to 30 minutes   |
 | `borders`	      | `daemon` | 		   | Time when daemon can play sounds 						      |
 | `borders.from`      | `daemon` | `[7 00]`	   | Time when daemon starts playing sounds. `[7 00]` means – 7:00 or 7:00 a.m.       |
 | `borders.to`	      | `daemon` | `[22 00]`	   | Time when daemon stops playing any sounds. `[22 00]` means - 22:00 or 10:00 p.m. |
